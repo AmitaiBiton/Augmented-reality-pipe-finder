@@ -15,9 +15,7 @@ def filter_frames():
         pipe.wait_for_frames()
     cv2.namedWindow("Depth Stream", cv2.WINDOW_AUTOSIZE)
 
-    # Create colorizer object
 
-    # Streaming loop
 
     # Store next frameset for later processing:
     frameset = pipe.wait_for_frames()
@@ -29,15 +27,18 @@ def filter_frames():
     print("Frames Captured")
 
     colorizer = rs.colorizer()
-
+    """create the colorizer for depth data to color data map """
     colorized_depth = np.asanyarray(colorizer.colorize(depth_frame).get_data())
 
-
+    """see the data without filter as color image """
     plt.rcParams["axes.grid"] = False
     plt.rcParams['figure.figsize'] = [8, 4]
     plt.imshow(colorized_depth)
     #plt.show()
-
+    """
+    when is the resolutions is bad the filter will doing filter on this area  after that is also do hole filing 
+    using none zero pixel 
+    """
     decimation = rs.decimation_filter()
     decimated_depth = decimation.process(depth_frame)
     colorized_depth = np.asanyarray(colorizer.colorize(decimated_depth).get_data())
@@ -49,13 +50,13 @@ def filter_frames():
     colorized_depth = np.asanyarray(colorizer.colorize(decimated_depth).get_data())
     plt.imshow(colorized_depth)
     #plt.show()
-
+    """if some area is reconstructed so is   enhance this area  by transfrom"""
     spatial = rs.spatial_filter()
     filtered_depth = spatial.process(depth_frame)
     colorized_depth = np.asanyarray(colorizer.colorize(filtered_depth).get_data())
     plt.imshow(colorized_depth)
     #plt.show()
-
+    """set the parameters """
     spatial.set_option(rs.option.filter_magnitude, 2)
     spatial.set_option(rs.option.filter_smooth_alpha, 0.5)
     spatial.set_option(rs.option.filter_smooth_delta, 18)
@@ -71,7 +72,7 @@ def filter_frames():
     #plt.show()
 
     profile = pipe.start(cfg)
-
+    """list of the frames in this stream """
     frames = []
     for x in range(10):
         frameset = pipe.wait_for_frames()
@@ -96,7 +97,7 @@ def filter_frames():
 
     depth_to_disparity = rs.disparity_transform(True)
     disparity_to_depth = rs.disparity_transform(False)
-
+    """for every frame do the filter and get the bast frame without zero area  """
     for x in range(10):
         frame = frames[x]
         #frame = decimation.process(frame)
@@ -110,5 +111,5 @@ def filter_frames():
     plt.imshow(colorized_depth)
     #plt.show()
     depth_frame = depth_frame.as_depth_frame()
-
+    """return the color map by colorizer and the depth data """
     return colorized_depth ,depth_frame
