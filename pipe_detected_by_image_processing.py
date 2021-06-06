@@ -85,7 +85,7 @@ def show(image  ,detection ,depth_and_detection ,result):
     plt.xticks([]), plt.yticks([])
     plt.subplot(2,2,3), plt.imshow(depth_and_detection, cmap="gray"), plt.title('Result = canny && depth ')
     plt.xticks([]), plt.yticks([])
-    plt.subplot(2,2,4), plt.imshow(result, cmap="gray"), plt.title('pipe on white well ')
+    plt.subplot(2,2,4), plt.imshow(result, cmap="gray"), plt.title('localization: pipe  color on  the white wall ')
     plt.xticks([]), plt.yticks([])
     plt.savefig('./output/result.png')
     plt.show()
