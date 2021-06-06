@@ -97,7 +97,6 @@ doing AND opertor between depth data and object detection image
 def calculate_pipe_depth_for_any_points(aligned_depth_frame, pipe_detected_canny):
     pipe_detected_depth = []
     for l in pipe_detected_canny:
-        print(l)
         if l[1] < aligned_depth_frame.get_width() and l[0] < aligned_depth_frame.get_height():
             d = aligned_depth_frame.get_distance(l[1] ,l[0])
             pipe_detected_depth.append((l ,d))
@@ -108,24 +107,26 @@ def calculate_pipe_depth_for_any_points(aligned_depth_frame, pipe_detected_canny
 def calculate_distance( color_intrin, depth_frame , x1 ,y1, x2, y2):
     udist = depth_frame[x1, y1]
     vdist = depth_frame[x2, y2]
-    print (udist,vdist)
-    print(udist , vdist)
+
     point1 = rs.rs2_deproject_pixel_to_point(color_intrin, [x1, y1], udist)
     point2 = rs.rs2_deproject_pixel_to_point(color_intrin, [x2, y2], vdist)
-    print (str(point1)+str(point2))
 
     dist = np.math.sqrt(
         np.math.pow(point1[0] - point2[0], 2) + np.math.pow(point1[1] - point2[1], 2) + np.math.pow(
             point1[2] - point2[2], 2))
     # print 'distance: '+ str(dist)
     return dist
-
-
+# after we detected the pipe take the pixel that you detect and get the same pixel in white well
+def get_pipe_with_color(tracking , new_image):
+    for i in range(1080 ):
+        for j in range(1920):
+            if tracking.img_final[i][j]>0:
+                new_image[i][j] = color[i][j]
+    return new_image
 
 if __name__ == '__main__':
 
     color  = cv2.imread("./output/newimage.jpg",1)
-
     # create new stream from bag file to get the same rusolotion
     pipe = rs.pipeline()
     cfg = rs.config()
@@ -191,8 +192,15 @@ if __name__ == '__main__':
     colorizer = rs.colorizer();
     depth_color_frame = colorizer.colorize(aligned_depth_frame)
     colorized_depth = np.asanyarray(depth_color_frame.get_data())
+    """get the pipe from color image after you detected the pipe
+     in depth data and object detection by image processing """
+    color = np.array(color)
+    new_color_image_localizatiion = np.copy(color)
+    new_color_image_localizatiion[:,:,:]= 155
+    new_color_image_localizatiion = get_pipe_with_color(tracking , new_color_image_localizatiion)
+
     # showing results
-    show(color  , tracking.img_final , depth_and_canny )
+    show(color  , tracking.img_final , new_color_image_localizatiion )
 
 
 
