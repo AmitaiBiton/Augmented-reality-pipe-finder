@@ -1,7 +1,7 @@
 import math
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt           # 2D plotting library producing publication quality figures
+import matplotlib.pyplot as plt
 import argparse
 import pyrealsense2 as rs
 from depth_filters import filter_frames
@@ -58,7 +58,6 @@ def read_aligned_frames():
 
 def read_color_image():
     image  = cv2.imread("./output/newimage.jpg",0)
-    print(image.shape)
     canny = cv2.Canny(image , 0 , 100)
     canny=cv2.dilate(canny,np.ones((5,5)))
     pipe_detected_canny   = []
@@ -73,19 +72,22 @@ def read_color_image():
 """get the image we detect on the pipe and get from the image the points of the pipe return list of  (X,Y)"""
 def get_points_from_detection_pipe(tracking):
     pipe_detected_list = []
-    for i in range(1080):
-        for j in range(1920):
+    for i in range(tracking.img_final.shape[0]):
+        for j in range(tracking.img_final.shape[1]):
             if tracking.img_final[i][j] > 0:
                 pipe_detected_list.append((i, j))
     return  pipe_detected_list
 """show function show the result of the org image  , detected image  , and depth+object detection """
-def show(image  ,canny , result):
-    plt.subplot(131), plt.imshow(image, cmap="gray"), plt.title('color_image')
+def show(image  ,detection ,depth_and_detection ,result):
+    plt.subplot(2,2,1), plt.imshow(image, cmap="gray"), plt.title('color_image')
     plt.xticks([]), plt.yticks([])
-    plt.subplot(132), plt.imshow(canny, cmap="gray"), plt.title('canny')
+    plt.subplot(2,2,2), plt.imshow(detection, cmap="gray"), plt.title('pipe detection ')
     plt.xticks([]), plt.yticks([])
-    plt.subplot(133), plt.imshow(result, cmap="gray"), plt.title('Result = canny && depth ')
+    plt.subplot(2,2,3), plt.imshow(depth_and_detection, cmap="gray"), plt.title('Result = canny && depth ')
     plt.xticks([]), plt.yticks([])
+    plt.subplot(2,2,4), plt.imshow(result, cmap="gray"), plt.title('pipe on white well ')
+    plt.xticks([]), plt.yticks([])
+    plt.savefig('./output/result.png')
     plt.show()
 
 
@@ -118,8 +120,8 @@ def calculate_distance( color_intrin, depth_frame , x1 ,y1, x2, y2):
     return dist
 # after we detected the pipe take the pixel that you detect and get the same pixel in white well
 def get_pipe_with_color(tracking , new_image):
-    for i in range(1080 ):
-        for j in range(1920):
+    for i in range(tracking.img_final.shape[0] ):
+        for j in range(tracking.img_final.shape[1]):
             if tracking.img_final[i][j]>0:
                 new_image[i][j] = color[i][j]
     return new_image
@@ -200,7 +202,7 @@ if __name__ == '__main__':
     new_color_image_localizatiion = get_pipe_with_color(tracking , new_color_image_localizatiion)
 
     # showing results
-    show(color  , tracking.img_final , new_color_image_localizatiion )
+    show(color  , tracking.img_final ,depth_and_canny ,  new_color_image_localizatiion )
 
 
 
