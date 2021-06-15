@@ -14,12 +14,12 @@ def detect_qr_code(image):
 
         for i in range(nrOfPoints):
             nextPointIndex = (i + 1) % nrOfPoints
-
+            point= tuple(points[i][0].astype(int))
             cv2.line(image, tuple(points[i][0].astype(int)), tuple(points[nextPointIndex][0].astype(int)), (255, 0, 255), 15)
 
         print(decodedText)
 
-        return image
+        return image , point
 
 
     else:
@@ -53,10 +53,17 @@ if __name__ == '__main__':
     img4 = cv2.imread('test_qr_code/4.jpg')
     img5 = cv2.imread('test_qr_code/5.jpg')
     img6 = cv2.imread('test_qr_code/6.jpg')
-    img1 = detect_qr_code(img1)
-    img2 = detect_qr_code(img2)
-    img3 = detect_qr_code(img3)
-    img4 = detect_qr_code(img4)
-    img5 = detect_qr_code(img5)
-    img6 = detect_qr_code(img6)
+    img1 , point1 = detect_qr_code(img1)
+    img2 ,point2 = detect_qr_code(img2)
+    img3 ,point3 = detect_qr_code(img3)
+    img4 ,point4= detect_qr_code(img4)
+    img5, point5= detect_qr_code(img5)
+    img6, point6 = detect_qr_code(img6)
+    print(point1)
+    print(point2)
+    print(point3)
+    print(point4)
+    print(point5)
+    print(point6)
+
     show(img1,img2,img3,img4,img5,img6)
