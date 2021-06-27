@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 import cv2
 def detect_qr_code(image):
-
+    print("AAA")
     qrCodeDetector = cv2.QRCodeDetector()
 
     decodedText, points, _ = qrCodeDetector.detectAndDecode(image)
@@ -47,12 +47,14 @@ def show(img1, img2 ,img3 ,img4 ,img5 ,img6) :
 
 
 if __name__ == '__main__':
-    img1 = cv2.imread('test_qr_code/1.jpg')
+    img1 = cv2.imread('output/new3.jpg')
+
     img2 = cv2.imread('test_qr_code/2.jpg')
     img3 = cv2.imread('test_qr_code/3.jpg')
     img4 = cv2.imread('test_qr_code/4.jpg')
     img5 = cv2.imread('test_qr_code/5.jpg')
     img6 = cv2.imread('test_qr_code/6.jpg')
+    print(img1.shape )
     img1 , point1 = detect_qr_code(img1)
     img2 ,point2 = detect_qr_code(img2)
     img3 ,point3 = detect_qr_code(img3)

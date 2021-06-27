@@ -81,7 +81,7 @@ try:
 
 
 
-    cv2.imwrite('./output/newimage.jpg', list_color_images[10])
+    cv2.imwrite('./output/new3.jpg', list_color_images[10])
     cv2.imshow("color image " , list_color_images[1])
     cv2.waitKeyEx()
 finally:

@@ -35,7 +35,7 @@ def calculate_distance(self,x,y):
 def read_aligned_frames():
     pipe = rs.pipeline()
     cfg = rs.config()
-    cfg.enable_device_from_file("./test/obj1.bag")
+    cfg.enable_device_from_file("./scaning/obj3.bag")
     pipe.start(cfg)
     align_to = rs.stream.color
     align = rs.align(align_to)
@@ -52,12 +52,12 @@ def read_aligned_frames():
     aligned_frames = align.process(frameset)
     aligned_depth_frame = aligned_frames.get_depth_frame()
 
-    return aligned_depth_frame
+    return aligned_depth_frame , aligned_frames
 
 
 
 def read_color_image():
-    image  = cv2.imread("./output/newimage.jpg",0)
+    image  = cv2.imread("./output/new3.jpg",0)
     canny = cv2.Canny(image , 0 , 100)
     canny=cv2.dilate(canny,np.ones((5,5)))
     pipe_detected_canny   = []
@@ -87,7 +87,7 @@ def show(image  ,detection ,depth_and_detection ,result):
     plt.xticks([]), plt.yticks([])
     plt.subplot(2,2,4), plt.imshow(result, cmap="gray"), plt.title('localization: pipe  color on  the white wall ')
     plt.xticks([]), plt.yticks([])
-    plt.savefig('./output/result.png')
+    plt.savefig('./output/result_by_color.png')
     plt.show()
 
 
@@ -128,7 +128,8 @@ def get_pipe_with_color(tracking , new_image):
 
 if __name__ == '__main__':
 
-    color  = cv2.imread("./output/newimage.jpg",1)
+    color  = cv2.imread("./output/new3.jpg",1)
+    """
     # create new stream from bag file to get the same rusolotion
     pipe = rs.pipeline()
     cfg = rs.config()
@@ -140,17 +141,24 @@ if __name__ == '__main__':
     # Skip 5 first frames to give the Auto-Exposure time to adjust
     for x in range(10):
         pipe.wait_for_frames()
-    """to compera the rusolotions between depth data and color data
-    depth org = 848/480 , color image = 1080/1920 change to both 1080/1920"""
+    """"""to compera the rusolotions between depth data and color data
+    depth org = 848/480 , color image = 1080/1920 change to both 1080/1920
+    """"""
+   
     frameset = pipe.wait_for_frames()
     aligned_frames = align.process(frameset)
     aligned_depth_frame = aligned_frames.get_depth_frame()
+    """
+    aligned_depth_frame , aligned_frames = read_aligned_frames()
     color_frame  = aligned_frames.get_color_frame()
-    color_image = np.asanyarray(aligned_depth_frame.get_data())
+    depth_data_array = np.asanyarray(aligned_depth_frame.get_data())
     color_intrin = color_frame.profile.as_video_stream_profile().intrinsics
+    print(color_intrin )
 
-    colorized_depth, depth_frame = filter_frames() # data 848X480 , color depth image 848X480
-    depth_frame = depth_frame.as_depth_frame()
+    #colorized_depth, depth_frame = filter_frames() # data 848X480 , color depth image 848X480
+    #depth_frame = depth_frame.as_depth_frame()
+
+    print("asasasasasasasa" , calculate_distance(color_intrin, depth_data_array, 0,50,1079,50))
 
     #aligned_depth = read_aligned_frames()# pic 1920X1080 depth data
     """
@@ -169,9 +177,9 @@ if __name__ == '__main__':
     colorized_depth = np.asanyarray(depth_color_frame.get_data())
     #show(color  , canny  , depth_and_canny )
     """
-    pipe.stop()
+    #pipe.stop()
     # do the object detection by image processing
-    tracking  = LineTracking('./output/newimage.jpg')
+    tracking  = LineTracking('./output/new3.jpg')
     tracking.processing()
     tracking.img_final = tracking.img_final[:,:,0]
 
@@ -192,8 +200,8 @@ if __name__ == '__main__':
         if d[1]>0:
             depth_and_canny[d[0]] = d[1]
     colorizer = rs.colorizer();
-    depth_color_frame = colorizer.colorize(aligned_depth_frame)
-    colorized_depth = np.asanyarray(depth_color_frame.get_data())
+    #depth_color_frame = colorizer.colorize(aligned_depth_frame)
+    #colorized_depth = np.asanyarray(depth_color_frame.get_data())
     """get the pipe from color image after you detected the pipe
      in depth data and object detection by image processing """
     color = np.array(color)
