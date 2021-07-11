@@ -7,23 +7,21 @@ def filter_frames():
     pipe = rs.pipeline()
     cfg = rs.config()
 
-    cfg.enable_device_from_file("./test/obj1.bag")
+    cfg.enable_device_from_file("./scaning/obj5.bag")
     pipe.start(cfg)
+
     align_to = rs.stream.color
+    align = rs.align(align_to)
     # Skip 5 first frames to give the Auto-Exposure time to adjust
-    for x in range(10):
+    for x in range(5):
         pipe.wait_for_frames()
-    cv2.namedWindow("Depth Stream", cv2.WINDOW_AUTOSIZE)
 
-
-
-    # Store next frameset for later processing:
     frameset = pipe.wait_for_frames()
-    depth_frame = frameset.get_depth_frame()
+    aligned_frames = align.process(frameset)
+    depth_frame = aligned_frames.get_depth_frame()
 
     # Cleanup:
     pipe.stop()
-
     print("Frames Captured")
 
     colorizer = rs.colorizer()
@@ -74,13 +72,13 @@ def filter_frames():
     profile = pipe.start(cfg)
     """list of the frames in this stream """
     frames = []
-    for x in range(10):
+    for x in range(15):
         frameset = pipe.wait_for_frames()
-        frames.append(frameset.get_depth_frame())
+        aligned_frames = align.process(frameset)
+        frames.append(aligned_frames .get_depth_frame())
 
     pipe.stop()
     print("Frames Captured")
-
     temporal = rs.temporal_filter()
     for x in range(10):
         temp_filtered = temporal.process(frames[x])
@@ -90,26 +88,34 @@ def filter_frames():
     filled_depth = hole_filling.process(depth_frame)
     colorized_depth = np.asanyarray(colorizer.colorize(filled_depth).get_data())
     plt.imshow(colorized_depth)
-    #
     #plt.show()
     #
-
-
     depth_to_disparity = rs.disparity_transform(True)
     disparity_to_depth = rs.disparity_transform(False)
     """for every frame do the filter and get the bast frame without zero area  """
-    for x in range(10):
+    for x in range(15):
         frame = frames[x]
         #frame = decimation.process(frame)
         frame = depth_to_disparity.process(frame)
         frame = spatial.process(frame)
-        #frame = temporal.process(frame)
+        frame = temporal.process(frame)
         frame = disparity_to_depth.process(frame)
-        #frame = hole_filling.process(frame)
+        frame = hole_filling.process(frame)
     colorized_depth = np.asanyarray(colorizer.colorize(frame).get_data())
-
     plt.imshow(colorized_depth)
-    #plt.show()
+    plt.show()
     depth_frame = depth_frame.as_depth_frame()
-    """return the color map by colorizer and the depth data """
-    return colorized_depth ,depth_frame
+    d = np.asanyarray(frame.get_data())
+    print(d.shape)
+
+    counter=0
+    for i in range(depth_frame.get_width()):
+        for j in  range(depth_frame.get_height()):
+            if d[j][i]==0:
+                counter+=1
+    print("counter zero =  " , counter)
+
+
+    return colorized_depth ,frame
+
+filter_frames()
