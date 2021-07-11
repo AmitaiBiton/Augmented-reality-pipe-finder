@@ -7,20 +7,34 @@ from pipe_detected_by_image_processing import read_aligned_frames
 from streaming_from_bag_file import streaming_from_bag_file
 import cv2
 import  numpy as np
+"""
+step 1: build reference points
+build points that we detected on qr code  
+need to build 4 points for any scan : first and second 
+
+step 2: pixel u,v to points x,y,z (de_projection)
+take the point U,V and calculate the points on 3D X,Y,Z
+
+step3: add vector one
+matrix from 4X3 to 4X4
+
+step 4:
+calculate RT matrix by using A^-1B = RT
+
+step 5: 
+find all the pixel that represent the pipe on 2D image
+
+step 6:
+all the points of the pipe de projection to 3D points
+
+step 7: 
+pints 3D of pipe dot RT matrix 
+
+step 8: 
+projection the results on scan two 
+"""
 
 from tracking_by_image_processing import LineTracking
-
-def add_vector_one(list):
-    new_list=[]
-    for i in range(list.shape[0]):
-        t1 = []
-        for j in range(list.shape[1] + 1):
-            if j == 3:
-                t1.append(1)
-            else:
-                t1.append(int(list[i][j]))
-        new_list.append(t1)
-    return new_list
 
 def build_reference_points(point1,point2):
     point_list1 = []
@@ -35,13 +49,26 @@ def build_reference_points(point1,point2):
     point_list2.append((point2[0][0] + 2, point2[0][1] + 2))
     return  point_list1,point_list2
 
+
+def add_vector_one(list):
+    new_list=[]
+    for i in range(list.shape[0]):
+        t1 = []
+        for j in range(list.shape[1] + 1):
+            if j == 3:
+                t1.append(1)
+            else:
+                t1.append(int(list[i][j]))
+        new_list.append(t1)
+    return new_list
+
+
 def pixel_uv_to_points_xyz(list):
     points=[]
     for i in range(len(list)):
         udist1 = depth_data_array[list[i][0], list[i][1]]
         points.append(rs.rs2_deproject_pixel_to_point(color_intrin, [list[i][0], list[i][1]], udist1))
     return points
-
 
 def get_pixel_pipes():
     list_pixel_pipes=[]
@@ -53,8 +80,6 @@ def get_pixel_pipes():
             if tracking.img_final[i][j] > 0:
                 list_pixel_pipes.append((i, j))
     return list_pixel_pipes
-
-
 
 
 streaming_from_bag_file('./scaning/obj5.bag' ,'./output/new6.jpg' )
