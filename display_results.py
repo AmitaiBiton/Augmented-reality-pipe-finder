@@ -10,20 +10,12 @@ from pynput.mouse import Listener
 # read image
 from pipe_detected_by_image_processing import read_aligned_frames, calculate_distance
 
-img = cv2.imread('./output/new5.jpg')
-aligned_depth_frame, aligned_frames = read_aligned_frames("./scaning/obj5.bag")
-color_frame = aligned_frames.get_color_frame()
-depth_data_array = np.asanyarray(aligned_depth_frame.get_data())
-color_intrin = color_frame.profile.as_video_stream_profile().intrinsics
-# show image
-cv2.imshow('image', img)
-# define the events for the
-# mouse_click.
-refPt = []
-def mouse_click(event, x, y, flags, param ):
-    point2 = (0, 0)
+def mouse_click(event, x, y, flags, args):
+    color_intrin = args[0]
+    img = args[1]
+    depth_data_array = args[2]
     global refPt
-    point1 = (400, 300)
+    refPt = args[3]
     # to check if left mouse
     # button was clicked
 
@@ -53,12 +45,20 @@ def mouse_click(event, x, y, flags, param ):
                         (0, 0, 0),
                         2)
             refPt = []
-        cv2.imshow('image', img)
+        cv2.imshow('image',img)
 
-counter=1
-cv2.setMouseCallback('image', mouse_click)
+def display(image , path_file):
+    #img = cv2.imread(path_image)
+    aligned_depth_frame, aligned_frames = read_aligned_frames(path_file)
+    color_frame = aligned_frames.get_color_frame()
+    depth_data_array = np.asanyarray(aligned_depth_frame.get_data())
+    color_intrin = color_frame.profile.as_video_stream_profile().intrinsics
+    # show image
+    refPt = []
+    cv2.imshow('image', image)
+    # define the events for the
+    # mouse_click.
+    cv2.setMouseCallback('image',  mouse_click ,(color_intrin , image , depth_data_array ,refPt))
 
-cv2.waitKey(0)
-
-cv2.imwrite('./results/4.jpg',img)
+    cv2.waitKey(0)
 
