@@ -2,8 +2,8 @@ from pyrealsense2.pyrealsense2 import depth_frame
 import pyrealsense2 as rs
 import matplotlib.pyplot as plt           # 2D plotting library producing publication quality figures
 from numpy.linalg import inv
-from detect_Qr_code import detect_qr_code
-from pipe_detected_by_image_processing import read_aligned_frames
+from detect_Qr_code import detect_qr_code, f
+from pipe_detected_by_image_processing import read_aligned_frames, get_pipe_with_color
 from streaming_from_bag_file import streaming_from_bag_file
 import cv2
 import math
@@ -101,13 +101,17 @@ image2 = streaming_from_bag_file('./pipe_finder/salon/2.bag')
 
 
 img2 = np.copy(image2)
-#image_QR_detector1 , point1 = detect_qr_code(image1)
-#image_QR_detector2 , point2 = detect_qr_code(image2)
+
 
 #point_list1 ,point_list2 = build_reference_points(point1,point2)
-point_list1 = [[248,676],[367,675],[367,798],[248,795]]
-point_list2 = [[246,674],[365,676],[365,798],[246,795]]
-aligned_depth_frame, aligned_frames = read_aligned_frames('./scaning/obj5.bag')
+#point_list1 = [[248,676],[367,675],[367,798],[248,795]]
+#point_list2 = [[246,674],[365,676],[365,798],[246,795]]
+point_list1 = f('./pipe_finder/salon/1.jpg')
+point_list2 = f('./pipe_finder/salon/2.jpg')
+
+print(point_list1)
+print(point_list2)
+aligned_depth_frame, aligned_frames = read_aligned_frames('./pipe_finder/salon/1.bag')
 color_frame = aligned_frames.get_color_frame()
 depth_frame = aligned_frames.get_depth_frame()
 depth_data_array = np.asanyarray(aligned_depth_frame.get_data())
@@ -139,6 +143,7 @@ points_image_A = image_from_2D_to_3D(image1)
 
 points_image_A = np.array(points_image_A)
 points_image_A = add_vector_one(points_image_A)
+print(matrix_RT)
 
 points_image_A = np.array(points_image_A)
 image1_position_image2 = np.dot(matrix_RT,points_image_A.T)
@@ -150,7 +155,8 @@ for row in image1_position_image2.T:
     color_pixel = rs.rs2_project_point_to_pixel(color_intrin, point)
     if  math.isnan(color_pixel[0])!= True and math.isnan(color_pixel[1])!= True:
         final_pixel_projection.append((int(color_pixel[0]), int(color_pixel[1])))
-
+    else:
+        final_pixel_projection.append(0, 0)
 final_pixel_projection = np.array(final_pixel_projection)
 list_value_color = []
 for i in range(image1.shape[0]):
@@ -178,12 +184,18 @@ for i in range(final_pixel_projection.shape[0]):
             final_pixel_projection[i][j][1] = 0
 image  = cv2.imread('./pipe_finder/salon/1.jpg')
 list_pixel_pipes = get_pixel_pipes(image)
-print(list_pixel_pipes)
 color_exist = False
 for i in range(list_value_color.shape[0]):
     for j in range(list_value_color.shape[1]):
        image2[i][j]= list_value_color[final_pixel_projection[i][j][1]][final_pixel_projection[i][j][0]]
 
+
 cv2.imshow("new imaghe" , image2)
 cv2.waitKey()
-
+tracking = LineTracking(image2)
+tracking.processing()
+tracking.img_final = tracking.img_final[:, :, 0]
+temp = cv2.imread('./pipe_finder/salon/2.jpg')
+final_image = get_pipe_with_color(tracking , temp , image2)
+cv2.imshow("result" , final_image)
+cv2.waitKey()
