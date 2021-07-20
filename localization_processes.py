@@ -2,7 +2,7 @@ from pyrealsense2.pyrealsense2 import depth_frame
 import pyrealsense2 as rs
 import matplotlib.pyplot as plt           # 2D plotting library producing publication quality figures
 from numpy.linalg import inv
-from detect_Qr_code import detect_qr_code, f
+from detect_Qr_code import detect_qr_code, find_points
 from pipe_detected_by_image_processing import read_aligned_frames, get_pipe_with_color
 from streaming_from_bag_file import streaming_from_bag_file
 import cv2
@@ -106,8 +106,8 @@ img2 = np.copy(image2)
 #point_list1 ,point_list2 = build_reference_points(point1,point2)
 #point_list1 = [[248,676],[367,675],[367,798],[248,795]]
 #point_list2 = [[246,674],[365,676],[365,798],[246,795]]
-point_list1 = f('./pipe_finder/salon/1.jpg')
-point_list2 = f('./pipe_finder/salon/2.jpg')
+point_list1 = find_points('./pipe_finder/salon/1.jpg')
+point_list2 = find_points('./pipe_finder/salon/2.jpg')
 
 print(point_list1)
 print(point_list2)
