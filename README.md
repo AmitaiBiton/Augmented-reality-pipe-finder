@@ -61,5 +61,6 @@ It can be seen that the point on the pipe is closer, the value is calculated in 
 ![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/depth_point.png)   
       
       
+##### step one see the check the depth camera:
 
 
