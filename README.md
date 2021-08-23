@@ -27,6 +27,7 @@ One of the filters we used is:
 ##### Spatial:
 This filter knows how to complete mainly information in complex areas where there 
 are small holes in the middle of the image and the completion is performed by calculating values in close pixels in the image.
+![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/spatial.png)  
 
 
 ##### Resolutions Processes:
