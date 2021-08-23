@@ -48,5 +48,14 @@ In order to match two different angles of photography scanned in the two differe
 blanks 4 unique values must be identified in the two scans that indicate the same place in the real world
 even though their value is different in relation to the displayed image,
 so the user was required to hang QR on both scans. Unique QR edges are more detailed in the relevant section.
-![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/QR.png)  
+![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/QR.png) 
+
+#### calculate the distance pipe to wall or betweens pipes:
+![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/3D_distance.png) 
+
+##### step one see the check the depth camera:
+we need to check some points and see the different exampale:
+![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/depth_point.png) 
+It can be seen that the point on the pipe is closer, the value is calculated in millimeters.
+
 
