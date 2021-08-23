@@ -82,5 +82,11 @@ see - https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/main/cod
 
 
 ## Results:
-
+The system will allow the user to make two options:
+1. Calculate distances between 2 objects in the image shown in the example below so that, for example,  
+  the user can know the position of the pipe in relation to the left or right wall.
+  
+  
+  
+3. The user will be able to mark in advance before the second emptying where he wants to perform a drilling operation for the purpose and then according to when the system will lay the pipes in relation to the last scan he performed, if the marking meets a pipe then he will not be able to perform the same operation in this area.
 
