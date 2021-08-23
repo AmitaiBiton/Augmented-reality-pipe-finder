@@ -54,10 +54,12 @@ so the user was required to hang QR on both scans. Unique QR edges are more deta
 ![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/3D_distance.png) 
 
 ##### step one see the check the depth camera:
-we need to check some points and see the different exampale:
+we need to check some points and see the different exampale:  
+It can be seen that the point on the pipe is closer, the value is calculated in millimeters.  
+
+
 ![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/depth_point.png)   
       
       
-It can be seen that the point on the pipe is closer, the value is calculated in millimeters.
 
 
