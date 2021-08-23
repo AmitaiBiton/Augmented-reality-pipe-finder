@@ -14,6 +14,7 @@ To activate the camera we used Intel's SDK to scan and save the relevant data.
 It is important to note that the camera has two types of images,
 the first is a standard color image with a resolution of 1920 X 1080.  
 the second image is the depth image in which by building the right software you can get in each pixel and pixel the distance from the object taken
+![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/depth.png)  
 
 #### Filters on Depth image
 The camera, like any other hardware component,
