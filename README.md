@@ -50,7 +50,7 @@ even though their value is different in relation to the displayed image,
 so the user was required to hang QR on both scans. Unique QR edges are more detailed in the relevant section.
 ![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/QR.png) 
 
-#### calculate the distance pipe to wall or betweens pipes:
+#### calculate the distance pipe to the wall or between pipes:
 ![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/3D_distance.png) 
 
 ##### step one see the check the depth camera:
