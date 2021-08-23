@@ -1,7 +1,7 @@
 # Augmented-reality-pipe-finder
 
 ### build a system that can display the pipes inside the wall:
-![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/main/git1.png)  
+![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/git1.png)  
 
 The system uses a 3D camera on packets to scan the wall when the pipes are exposed 
 during construction, and another scan when construction is complete,
