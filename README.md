@@ -37,6 +37,8 @@ there is a function from the SDK that performs a stretch when after the stretch 
 
 #### Detection the pipes from scan 1:
 Using algorithms and functions from the CV2 library to identify and capture the tubes on the color image.
+![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/detection.png)  
+
 It is important to note that since we use image processing algorithms the results are not 100% of detection and perception 
 so further research on neural networks and deep learning has been done Link to additional project - https://github.com/AmitaiBiton/cable_and_wire_finder
 
@@ -46,3 +48,5 @@ In order to match two different angles of photography scanned in the two differe
 blanks 4 unique values must be identified in the two scans that indicate the same place in the real world
 even though their value is different in relation to the displayed image,
 so the user was required to hang QR on both scans. Unique QR edges are more detailed in the relevant section.
+![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/QR.png)  
+
