@@ -64,6 +64,9 @@ It can be seen that the point on the pipe is closer, the value is calculated in 
 ##### step two check the convert function from 2D pixel to 3D points:
 to calculate the distance between two objects we need the 3D points of the two objects so we need to convert the image from 2D to 3D image.  
 exampale:  
+pixel - (u,v)   
+point - (X,Y,Z)  
+
 ![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/2D_to_3D.png)   
 
 
