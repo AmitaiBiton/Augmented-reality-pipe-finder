@@ -5,7 +5,8 @@
 
 The system uses a 3D camera on packets to scan the wall when the pipes are exposed 
 during construction, and another scan when construction is complete,
-the first scan result we impose on the second scan and present to the customer.
+the first scan result we impose on the second scan and present to the customer.  
+see - https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/main/code/realSense_scaning.py
 
 
 
@@ -22,8 +23,8 @@ has a certain limitation,
 this limitation is mainly reflected in the depth calculation for each pixel and pixel in the image
 since there are close to 2 million pixels the camera fails to cover everything and there are 
 lots of areas defined as black where the distance Use certain filters to complete the information.
-One of the filters we used is:  
-
+One of the filters we used is:   
+see - https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/main/code/depth_filters.py
 ##### Spatial:
 This filter knows how to complete mainly information in complex areas where there 
 are small holes in the middle of the image and the completion is performed by calculating values in close pixels in the image.
@@ -41,13 +42,15 @@ Using algorithms and functions from the CV2 library to identify and capture the 
 
 It is important to note that since we use image processing algorithms the results are not 100% of detection and perception 
 so further research on neural networks and deep learning has been done Link to additional project - https://github.com/AmitaiBiton/cable_and_wire_finder
-
+see - https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/main/code/tracking_by_image_processing.py
 
 #### QR Detection:
 In order to match two different angles of photography scanned in the two different
 blanks 4 unique values must be identified in the two scans that indicate the same place in the real world
 even though their value is different in relation to the displayed image,
-so the user was required to hang QR on both scans. Unique QR edges are more detailed in the relevant section.
+so the user was required to hang QR on both scans. Unique QR edges are more detailed in the relevant section.  
+
+see - https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/main/code/detect_Qr_code.py
 ![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/QR.png) 
 
 #### calculate the distance pipe to the wall or between pipes:
