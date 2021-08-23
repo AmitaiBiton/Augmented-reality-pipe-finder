@@ -69,5 +69,5 @@ point - (X,Y,Z)
 
 ![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/2D_to_3D.png)   
 
-
+### localization step - is abuot to Match the two different scans by rotating in three dimensions:  
 
