@@ -70,4 +70,8 @@ point - (X,Y,Z)
 ![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/2D_to_3D.png)   
 
 ### localization step - is abuot to Match the two different scans by rotating in three dimensions:  
+In order for us to perform the round it is necessary to identify 4 points  
+in real space in the two different scans, from these four points  
+we can build a matrix for each scan when there is one missing matrix that expresses the transition between the matrix from the first scan and the second scan.  
+2D taken convert them to 3D and perform the desired rotation we need in order to match the two scans and cast the information correctly
 
