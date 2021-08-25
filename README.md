@@ -94,4 +94,11 @@ The system will allow the user to make two options:
   
 3. The user will be able to mark in advance before the second emptying where he wants to perform a drilling operation for the purpose and then according to when the system will lay the pipes in relation to the last scan he performed, if the marking meets a pipe then he will not be able to perform the same operation in this area.
 
-![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/mark.png)   
+![alt text](https://github.com/AmitaiBiton/Augmented-reality-pipe-finder/blob/master/Images/mark.png) 
+
+
+more info:
+
+Report  - https://drive.google.com/file/d/1Hhrgf-31z70CPEec8zSAANZZRT50sJfg/view?usp=sharing  
+Video -  https://drive.google.com/file/d/1uC0B3_EBG3Y_6iKHsbeSweYpasq4f9pR/view?usp=sharing
+poster - https://drive.google.com/file/d/1wlmwBx0eGKNlEQLJw-tevjPu4Xd4pT6Q/view?usp=sharing
